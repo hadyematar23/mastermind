@@ -1,5 +1,5 @@
 class Turn
-        attr_reader :guess_input
+        attr_accessor :guess_input
   def initialize(game)
     @guess_input = nil 
     @game = game 
@@ -14,11 +14,23 @@ class Turn
 
   def request_human_input 
    
-    # puts "Please provide your guess."
+    puts "Please provide your guess."
 
-    # @guess_input = gets.chomp
+    @guess_input = gets.chomp
 
-    @guess_input = "rrbb"  
+    @guess_input = @guess_input.downcase
+    if @guess_input.length > 4 
+      puts "Too many characters! Enter only 4"
+      request_human_input 
+    elsif @guess_input.length < 4 
+      puts "Not enough characters!"
+      request_human_input 
+    elsif @guess_input.match?(/\A[rgby]+\z/) == false 
+      puts "You can only input the characters 'r', 'g', 'b' and 'y' . Plase try again."
+      request_human_input
+    elsif @guess_input == "EXIT"
+      abort 
+    end
          
   end
 

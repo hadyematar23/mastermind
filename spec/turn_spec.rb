@@ -16,10 +16,9 @@ RSpec.describe Turn do
 
   end 
 
-
   it "checks each one of the elements of the arrary" do 
-
-  
+    
+    @new_turn.guess_input = "rrbb"
     expect(@new_turn.turn_helper).to eq([:r, :r, :b, :b])
 
   end 
@@ -30,5 +29,8 @@ RSpec.describe Turn do
     expect(@new_turn.turn_helper).to eq([:r, :r, :b, :b])
 
   end 
+
+
+
   end
 end 

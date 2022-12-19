@@ -29,7 +29,7 @@ RSpec.describe Game do
 
   end
 
-  it "will check each element of the array" do 
+  it "will check each element of the array and add to the hash" do 
     array = [:r, :y, :b, :g] #user input
     @mastermind.code = [:r, :r, :y, :b] #master code 
     expect(@mastermind.check_ind_letter(array[0], 0)).to eq({"Correct Letter, Correct Location" => 1
@@ -37,79 +37,105 @@ RSpec.describe Game do
 
   end 
 
-  xit "will check each element of the array" do 
+  it "will check each element of the array and add to the hash" do 
     array = [:r, :y, :b, :g] #user input
     @mastermind.code = [:r, :r, :y, :b] #master code 
-    expect(@mastermind.check_ind_letter(array[1], 1)).to eq("Correct letter, wrong location")
+    @mastermind.check_ind_letter(array[0], 0)
+    expect(@mastermind.check_ind_letter(array[1], 1)).to eq({"Correct Letter, Correct Location" => 1, "Correct Letter, Wrong Location" => 1})
 
   end 
 
-  xit "will check each element of the array" do 
+  it "will check each element of the array" do 
     array = [:r, :y, :b, :g] #user input
     @mastermind.code = [:r, :r, :y, :b] #master code 
-    expect(@mastermind.check_ind_letter(array[2], 2)).to eq("Correct letter, wrong location")
+    @mastermind.check_ind_letter(array[0], 0)
+    @mastermind.check_ind_letter(array[1], 1)
+    expect(@mastermind.check_ind_letter(array[2], 2)).to eq({"Correct Letter, Correct Location" => 1, "Correct Letter, Wrong Location" => 2})
 
   end 
 
-  xit "will check each element of the array" do 
+  it "will check each element of the array" do 
     array = [:r, :y, :b, :g] #user input
     @mastermind.code = [:r, :r, :y, :b] #master code 
-    expect(@mastermind.check_ind_letter(array[3], 3)).to eq("Wrong letter, wrong location")
+    @mastermind.check_ind_letter(array[0], 0)
+    @mastermind.check_ind_letter(array[1], 1)
+    @mastermind.check_ind_letter(array[2], 2)
+    expect(@mastermind.check_ind_letter(array[3], 3)).to eq({"Correct Letter, Correct Location" => 1, "Correct Letter, Wrong Location" => 2, "Wrong Letter, Wrong Location" => 1})
 
   end 
 
-  # # NEW SET 
+  # NEW SET 
 
-  # it "works with multiple different codes" do 
-  #   array = [:y, :g, :b, :r] #user input
-  #   @mastermind.code = [:b, :g, :r, :r] #master code 
-  #   @mastermind.check_ind_letter(array[0], 0)
-  #   expect(@mastermind.check_ind_letter(array[0], 0)).to eq("Wrong letter, wrong location")
-  # end 
+  it "works with multiple different codes" do 
+    array = [:y, :g, :b, :r] #user input
+    @mastermind.code = [:b, :g, :r, :r] #master code 
+    expect(@mastermind.check_ind_letter(array[0], 0)).to eq({"Wrong Letter, Wrong Location" => 1})
+  end 
 
-  # it "works with multiple different codes" do 
-  #   array = [:y, :g, :b, :r] #user input
-  #   @mastermind.code = [:b, :g, :r, :r] #master code 
-  #   expect(@mastermind.check_ind_letter(array[1], 1)).to eq("Correct letter, correct location")
-  # end 
+  it "works with multiple different codes" do 
+    array = [:y, :g, :b, :r] #user input
+    @mastermind.code = [:b, :g, :r, :r] #master code 
+    @mastermind.check_ind_letter(array[0], 0)
+    expect(@mastermind.check_ind_letter(array[1], 1)).to eq({"Correct Letter, Correct Location" => 1, "Wrong Letter, Wrong Location" => 1})
+  end 
 
-  # it "works with multiple different codes" do 
-  #   array = [:y, :g, :b, :r] #user input
-  #   @mastermind.code = [:b, :g, :r, :r] #master code 
-  #   expect(@mastermind.check_ind_letter(array[2], 2)).to eq("Correct letter, wrong location")
-  # end 
+  it "works with multiple different codes" do 
+    array = [:y, :g, :b, :r] #user input
+    @mastermind.code = [:b, :g, :r, :r] #master code 
+    @mastermind.check_ind_letter(array[0], 0)
+    @mastermind.check_ind_letter(array[1], 1)
+    expect(@mastermind.check_ind_letter(array[2], 2)).to eq({"Correct Letter, Correct Location" => 1, "Correct Letter, Wrong Location" => 1, "Wrong Letter, Wrong Location" => 1})
+  end 
 
-  # it "works with multiple different codes" do 
-  #   array = [:y, :g, :b, :r] #user input
-  #   @mastermind.code = [:b, :g, :r, :r] #master code  
-  #   expect(@mastermind.check_ind_letter(array[3], 3)).to eq("Correct letter, correct location")
-  # end 
+  it "works with multiple different codes" do 
+    array = [:y, :g, :b, :r] #user input
+    @mastermind.code = [:b, :g, :r, :r] #master code  
+    @mastermind.check_ind_letter(array[0], 0)
+    @mastermind.check_ind_letter(array[1], 1)
+    @mastermind.check_ind_letter(array[2], 2)
+    expect(@mastermind.check_ind_letter(array[3], 3)).to eq({"Correct Letter, Correct Location" => 2, "Correct Letter, Wrong Location" => 1, "Wrong Letter, Wrong Location" => 1})
+  end 
 
-  # # NEW SET 
+  # NEW SET 
 
-  # it "works with multiple different codes" do 
-  #   array = [:r, :g, :g, :y] #user input
-  #   @mastermind.code = [:g, :r, :b, :b] #master code 
-  #   @mastermind.check_ind_letter(array[0], 0)
-  #   expect(@mastermind.check_ind_letter(array[0], 0)).to eq("Correct letter, wrong location")
-  # end 
+  it "works with multiple different codes" do 
+    array = [:r, :g, :g, :y] #user input
+    @mastermind.code = [:g, :r, :b, :b] #master code 
+    expect(@mastermind.check_ind_letter(array[0], 0)).to eq({"Correct Letter, Wrong Location" => 1})
+  end 
 
-  # it "works with multiple different codes" do 
-  #   array = [:r, :g, :g, :y] #user input
-  #   @mastermind.code = [:g, :r, :b, :b] #master code 
-  #   expect(@mastermind.check_ind_letter(array[1], 1)).to eq("Correct letter, wrong location")
-  # end 
+  it "works with multiple different codes" do 
+    array = [:r, :g, :g, :y] #user input
+    @mastermind.code = [:g, :r, :b, :b] #master code 
+    @mastermind.check_ind_letter(array[0], 0)
+    expect(@mastermind.check_ind_letter(array[1], 1)).to eq({"Correct Letter, Wrong Location" => 2})
+  end 
 
-  # it "works with multiple different codes" do 
-  #   array = [:r, :g, :g, :y] #user input
-  #   @mastermind.code = [:g, :r, :b, :b] #master code 
-  #   expect(@mastermind.check_ind_letter(array[2], 2)).to eq("Correct letter, wrong location")
-  # end 
+  it "works with multiple different codes" do 
+    array = [:r, :g, :g, :y] #user input
+    @mastermind.code = [:g, :r, :b, :b] #master code 
+    @mastermind.check_ind_letter(array[0], 0)
+    @mastermind.check_ind_letter(array[1], 1)
+    expect(@mastermind.check_ind_letter(array[2], 2)).to eq({"Correct Letter, Wrong Location" => 3})
+  end 
 
-  # it "works with multiple different codes" do 
-  #   array = [:r, :g, :g, :y] #user input
-  #   @mastermind.code = [:g, :r, :b, :b] #master code 
-  #   expect(@mastermind.check_ind_letter(array[3], 3)).to eq("Wrong letter, wrong location")
-  # end 
+  it "works with multiple different codes" do 
+    array = [:r, :g, :g, :y] #user input
+    @mastermind.code = [:g, :r, :b, :b] #master code 
+    @mastermind.check_ind_letter(array[0], 0)
+    @mastermind.check_ind_letter(array[1], 1)
+    @mastermind.check_ind_letter(array[2], 2)
+    expect(@mastermind.check_ind_letter(array[3], 3)).to eq({"Correct Letter, Wrong Location" => 3, "Wrong Letter, Wrong Location" => 1})
+  end 
+
+  it "will declare victory if all of the locations match" do 
+    array = [:g, :r, :b, :b] #user input
+    @mastermind.code = [:g, :r, :b, :b] #master code 
+
+    expect(@mastermind.check_winner_helper([:g, :r, :b, :b])).to eq("Mabrouk! You have won the game.")
+
+  end 
+
+
   end 
 end 
