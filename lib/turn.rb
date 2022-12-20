@@ -1,5 +1,6 @@
 class Turn
         attr_accessor :guess_input
+
   def initialize(game)
     @guess_input = nil 
     @game = game 
@@ -29,7 +30,7 @@ class Turn
       puts "You can only input the characters 'r', 'g', 'b' and 'y' . Plase try again."
       request_human_input
     elsif @guess_input == "EXIT"
-      abort 
+      Kernel.exit(code) 
     end
          
   end

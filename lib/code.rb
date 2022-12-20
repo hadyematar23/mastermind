@@ -1,5 +1,5 @@
 class Code
-        attr_accessor :final_code
+        attr_reader :final_code
 
   def create_code 
     @final_code = []
@@ -9,8 +9,7 @@ class Code
     end 
 
     @final_code = @final_code.flatten
-
-    # @final_code = [[:r], [:r], [:b], [:g]].flatten
     
   end
+
 end

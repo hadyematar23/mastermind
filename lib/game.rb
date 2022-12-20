@@ -1,17 +1,20 @@
 class Game
-        attr_reader :generatecode
-        attr_accessor :code
+            attr_accessor :code, :array
         
   def initialize
     @generatecode = Code.new
-    @code = self.generatecode.create_code
+    @code = @generatecode.create_code
     @hash_of_results = Hash.new(0)
+    @array = nil 
   end
 
   def start_game
     # Insert clock timing here. 
     welcome_message
+  end
 
+  def code_dup 
+    @dupcode = @code.dup
   end
 
   def welcome_message
@@ -39,46 +42,94 @@ class Game
     new_turn.turn_helper
   end
 
-  #array that we are passing through- from the user input 
+  def establish_victor
+    if @hash_of_results["Correct Letter, Correct Location"] == 4 
+      true
+      @hash_of_results.clear
+      victory_message
+      welcome_message
+    end 
+  end
+
+  def victory_message
+    puts "Mabrouk! You have won the game."
+  end
+
 
   def check_winner_helper(array)
-    check_ind_letter(array[0], 0)
-    check_ind_letter(array[1], 1)
-    check_ind_letter(array[2], 2)
-    check_ind_letter(array[3], 3)
+    @array = array
+    code_dup
+    check_letters_helper
 
-    if @hash_of_results["Correct Letter, Correct Location"] == 4 
-      declare_victory
-    else 
+    establish_victor
+    if establish_victor != true
       print_results
       @hash_of_results.clear
-      require 'pry'; binding.pry
+      @code = @dupcode
       next_turn = Turn.new(self)
       next_turn.turn_helper
-      
+    else 
+      welcome_message
     end 
-
   end
-          # element is the user input; index_number will be used to reference the correct one in the master code
-  def check_ind_letter(element, index_number)
 
-    to_check = @code[index_number] #this is the master code 
 
+  def check_letters_helper 
+
+    check_ind_letter_match(@array[0], 0)
+    check_ind_letter_match(@array[1], 1)
+    check_ind_letter_match(@array[2], 2)
+    check_ind_letter_match(@array[3], 3)
+    check_ind_letter_similar(@array[0], 0)
+    check_ind_letter_similar(@array[1], 1)
+    check_ind_letter_similar(@array[2], 2)
+    check_ind_letter_similar(@array[3], 3)
+
+    return @hash_of_results
+  end
+
+  def check_ind_letter_match(element, index_number)
     if element == @code[index_number]
       "Correct letter, correct location"
       @hash_of_results["Correct Letter, Correct Location"] += 1
+      @code.delete_at(index_number)
+      @code.insert(index_number, nil)
+      @array.delete_at(index_number)
+      @array.insert(index_number, nil)
+    else 
+      "No Change"
+    end 
+    return @hash_of_results
+  end 
 
-    elsif @code.include?(element) == true
+  def check_ind_letter_similar(element, index_number)
+
+    if element != nil && element == @code[0]  
       "Correct letter, wrong location"
       @hash_of_results["Correct Letter, Wrong Location"] += 1
+      @code.replace([nil, @code[1], @code[2], @code[3]])
+
+    elsif element != nil && element == @code[1]
+      "Correct letter, wrong location"
+      @hash_of_results["Correct Letter, Wrong Location"] += 1
+      @code.replace([@code[0], nil, @code[2], @code[3]])
+
+    elsif element != nil && element == @code[2]
+      "Correct letter, wrong location"
+      @hash_of_results["Correct Letter, Wrong Location"] += 1
+      @code.replace([@code[0], @code[1], nil, @code[3]])
+
+    elsif element != nil && element == @code[3]
+      "Correct letter, wrong location"
+      @hash_of_results["Correct Letter, Wrong Location"] += 1
+      @code.replace([@code[0], @code[1], @code[2], nil])
 
     elsif @code.include?(element) == false 
       "Wrong letter, wrong location"
       @hash_of_results["Wrong Letter, Wrong Location"] += 1
-
     end 
 
-    return @hash_of_results
+      return @hash_of_results
 
   end
 
@@ -86,11 +137,9 @@ class Game
     puts "Not quite! You have #{@hash_of_results["Correct Letter, Correct Location"]} correct letters in the correct location and #{@hash_of_results["Correct Letter, Wrong Location"]} correct letters in the wrong location. 
 
     Try again!"
+    "Not quite! You have #{@hash_of_results["Correct Letter, Correct Location"]} correct letters in the correct location and #{@hash_of_results["Correct Letter, Wrong Location"]} correct letters in the wrong location. 
+
+    Try again!"
   end
 
-  def declare_victory 
-    puts "Mabrouk! You have won the game."
-    "Mabrouk! You have won the game."
-    welcome_message
-  end
 end 
