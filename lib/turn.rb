@@ -15,7 +15,7 @@ class Turn
 
   def request_human_input 
    
-    puts "Please provide your guess."
+    puts "Please provide your guess. (type 'exit' to quit the game)"
 
     @guess_input = gets.chomp
 
@@ -26,13 +26,12 @@ class Turn
     elsif @guess_input.length < 4 
       puts "Not enough characters!"
       request_human_input 
+    elsif @guess_input == "exit"
+      abort 
     elsif @guess_input.match?(/\A[rgby]+\z/) == false 
       puts "You can only input the characters 'r', 'g', 'b' and 'y' . Plase try again."
       request_human_input
-    elsif @guess_input == "EXIT"
-      Kernel.exit(code) 
-    end
-         
+    end  
   end
 
   def convert_to_array_of_symbols(guess_input)

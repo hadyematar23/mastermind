@@ -60,7 +60,6 @@ class Game
     @array = array
     code_dup
     check_letters_helper
-
     establish_victor
     if establish_victor != true
       print_results
@@ -73,9 +72,7 @@ class Game
     end 
   end
 
-
   def check_letters_helper 
-
     check_ind_letter_match(@array[0], 0)
     check_ind_letter_match(@array[1], 1)
     check_ind_letter_match(@array[2], 2)
@@ -84,7 +81,6 @@ class Game
     check_ind_letter_similar(@array[1], 1)
     check_ind_letter_similar(@array[2], 2)
     check_ind_letter_similar(@array[3], 3)
-
     return @hash_of_results
   end
 
