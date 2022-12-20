@@ -6,6 +6,7 @@ class Game
     @code = @generatecode.create_code
     @hash_of_results = Hash.new(0)
     @array = nil 
+    require 'pry'; binding.pry
   end
 
   def start_game
@@ -19,7 +20,6 @@ class Game
 
   def welcome_message
     puts "Welcome to MASTERMIND. Would you like to (p)lay, read the (i)nstructions, or (q)uit?"
-
     input = gets.chomp 
     if input == "p"
       play_game
@@ -39,6 +39,8 @@ class Game
 
   def play_game 
     new_turn = Turn.new(self)
+    require 'pry'; binding.pry
+
     new_turn.turn_helper
   end
 
@@ -46,7 +48,9 @@ class Game
     if @hash_of_results["Correct Letter, Correct Location"] == 4 
       true
       @hash_of_results.clear
+      require 'pry'; binding.pry
       victory_message
+      @code = @generatecode.create_code
       welcome_message
     end 
   end
@@ -59,6 +63,7 @@ class Game
   def check_winner_helper(array)
     @array = array
     code_dup
+    require 'pry'; binding.pry
     check_letters_helper
     establish_victor
     if establish_victor != true
@@ -73,14 +78,16 @@ class Game
   end
 
   def check_letters_helper 
-    check_ind_letter_match(@array[0], 0)
-    check_ind_letter_match(@array[1], 1)
-    check_ind_letter_match(@array[2], 2)
-    check_ind_letter_match(@array[3], 3)
-    check_ind_letter_similar(@array[0], 0)
-    check_ind_letter_similar(@array[1], 1)
-    check_ind_letter_similar(@array[2], 2)
-    check_ind_letter_similar(@array[3], 3)
+      index_number = -1
+    4.times do 
+      index_number += 1
+      check_ind_letter_match(@array[index_number], index_number)
+    end 
+      index_number = -1
+    4.times do 
+      index_number += 1
+      check_ind_letter_similar(@array[index_number], index_number)
+    end 
     return @hash_of_results
   end
 
